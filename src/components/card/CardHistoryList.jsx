@@ -28,12 +28,14 @@ const CardHistoryList = ({ histories }) => {
     <div
       ref={ref}
       className="
-        h-64
+        w-full 
+        h-full
         overflow-y-scroll
         scrollbar-hide
         cursor-grab
         active:cursor-grabbing
         select-none
+        rounded-sm
         bg-white
       "
     >

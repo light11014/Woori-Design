@@ -28,7 +28,7 @@ const Card_Back = ({ children, totalUsage, onFlip }) => {
       </div>
 
       {/* 3. 카드 내역 섹션 */}
-      <div className="relative z-10 flex-1 bg-blue-900/80 backdrop-blur-sm rounded-sm p-4 overflow-hidden border border-white/10">
+      <div className="relative z-10 flex-1 bg-gray-900/80 backdrop-blur-sm rounded-sm p-4 overflow-hidden border border-white/10">
         {children}
       </div>
 
