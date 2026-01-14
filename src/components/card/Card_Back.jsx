@@ -1,4 +1,6 @@
 // src/components/card/Card_Back.jsx
+import React from "react";
+
 const Card_Back = ({
   children,
   totalUsage,
@@ -16,42 +18,47 @@ const Card_Back = ({
   setCustomEnd,
 }) => {
   return (
-    <div className="relative w-full h-full bg-white rounded-[2rem] shadow-2xl p-6 flex flex-col overflow-hidden">
-      {/* 배경 및 Reverse 버튼 동일 */}
-      <div
-        className="absolute inset-0 opacity-10 pointer-events-none"
-        style={{
-          backgroundImage: `url('...')`,
-          backgroundSize: "150%",
-          backgroundPosition: "center",
-        }}
-      />
+    // 둥근 테두리와 그림자 다시 적용
+    <div className="relative w-full h-full bg-white rounded-[1rem] shadow-2xl flex flex-col overflow-hidden border border-gray-100">
+      {/* Reverse 버튼: 상단 고정 */}
       <button
         onClick={onFlip}
-        className="absolute top-4 right-4 z-[100] w-8 h-8 bg-blue-900 rounded-sm flex items-center justify-center text-white text-[10px]"
+        className="absolute top-6 right-6 z-[100] text-gray-300 hover:text-gray-500 transition-colors"
       >
-        🔄
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={2.5}
+          stroke="currentColor"
+          className="w-6 h-6"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"
+          />
+        </svg>
       </button>
 
-      {/* 파란색 박스 영역 */}
-      <div className="relative z-10 w-full bg-[#1B5E78] rounded-xl mb-4 mt-8 shadow-md flex flex-col border border-white/20">
-        {/* 1. 총 사용 금액 */}
-        <div className="pt-6 pb-2 text-center">
-          <p className="text-white/70 text-[10px] mb-1">총 사용금액</p>
-          <p className="text-white text-xl font-bold tracking-tight">
+      {/* 상단 정보 영역 (흰색/회색 톤) */}
+      <div className="pt-10 pb-4 px-6 border-b border-gray-50">
+        <div className="text-center mb-6">
+          <p className="text-gray-400 text-[11px] font-medium mb-1">
+            이번 달 사용금액
+          </p>
+          <p className="text-gray-900 text-3xl font-extrabold tracking-tight">
             {totalUsage}
           </p>
         </div>
 
-        {/* 2. 기간 표시 및 드롭다운 (1개월 모드일 때만 활성화) */}
-        <div className="relative px-4 pb-4 flex flex-col items-center">
+        {/* 기간 표시 및 드롭다운 */}
+        <div className="relative flex flex-col items-center">
           <div
             onClick={() => filterType === "1개월" && setIsListOpen(!isListOpen)}
-            className={`flex items-center gap-1 px-3 py-1 rounded-full transition-colors ${
-              filterType === "1개월" ? "cursor-pointer hover:bg-white/10" : ""
-            }`}
+            className="flex items-center gap-1 cursor-pointer group py-1 px-3 rounded-full hover:bg-gray-50 transition-colors"
           >
-            <span className="text-[11px] text-white/90 font-medium">
+            <span className="text-[12px] text-gray-600 font-semibold">
               {dateRange}
             </span>
             {filterType === "1개월" && (
@@ -59,7 +66,7 @@ const Card_Back = ({
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
                 fill="currentColor"
-                className={`w-3 h-3 text-white/70 transition-transform ${
+                className={`w-4 h-4 text-gray-300 transition-transform ${
                   isListOpen ? "rotate-180" : ""
                 }`}
               >
@@ -72,14 +79,14 @@ const Card_Back = ({
             )}
           </div>
 
-          {/* 개선된 드롭다운 UI: 파란색 테마 적용 및 z-index 상향 */}
+          {/* 월별 드롭다운 (흰색 팝업 스타일) */}
           {isListOpen && (
-            <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 w-32 bg-[#0D3B51] border border-white/20 rounded-lg shadow-2xl z-[150] overflow-hidden">
+            <div className="absolute top-full mt-2 w-36 bg-white border border-gray-100 rounded-xl shadow-xl z-[150] overflow-hidden">
               {monthList.map((m) => (
                 <button
                   key={m.label}
                   onClick={() => setMonthOffset(m.offset)}
-                  className="w-full px-4 py-2 text-[10px] text-white/80 hover:bg-blue-800 hover:text-white transition-colors border-b border-white/5 last:border-0"
+                  className="w-full px-4 py-3 text-[11px] text-gray-600 hover:bg-gray-50 hover:text-blue-600 text-center border-b border-gray-50 last:border-0 font-medium"
                 >
                   {m.label}
                 </button>
@@ -87,65 +94,66 @@ const Card_Back = ({
             </div>
           )}
 
-          {/* 조회설정 시 나타나는 날짜 입력창 */}
+          {/* 조회설정 날짜 입력창 (은은한 회색 배경) */}
           {filterType === "조회설정" && (
-            <div className="mt-3 flex items-center gap-2 animate-fadeIn">
+            <div className="mt-4 flex items-center gap-2 bg-gray-50 p-2 rounded-lg border border-gray-100">
               <input
                 type="date"
                 value={customStart}
                 onChange={(e) => setCustomStart(e.target.value)}
-                className="bg-blue-950/50 text-white text-[10px] px-2 py-1 rounded border border-white/20 outline-none"
+                className="bg-transparent text-gray-700 text-[10px] outline-none font-medium"
               />
-              <span className="text-white/50 text-[10px]">~</span>
+              <span className="text-gray-300 text-[10px]">~</span>
               <input
                 type="date"
                 value={customEnd}
                 onChange={(e) => setCustomEnd(e.target.value)}
-                className="bg-blue-950/50 text-white text-[10px] px-2 py-1 rounded border border-white/20 outline-none"
+                className="bg-transparent text-gray-700 text-[10px] outline-none font-medium"
               />
             </div>
           )}
         </div>
-
-        {/* 3. 선택 버튼들 */}
-        <div className="flex border-t border-white/10">
-          <button
-            onClick={() => {
-              setFilterType("1개월");
-              setIsListOpen(false);
-            }}
-            className={`flex-1 py-3 text-[11px] transition-colors rounded-bl-xl border-r border-white/10 ${
-              filterType === "1개월"
-                ? "bg-white/10 text-white font-bold"
-                : "text-white/40 hover:text-white"
-            }`}
-          >
-            1개월
-          </button>
-          <button
-            onClick={() => {
-              setFilterType("조회설정");
-              setIsListOpen(false);
-            }}
-            className={`flex-1 py-3 text-[11px] transition-colors rounded-br-xl ${
-              filterType === "조회설정"
-                ? "bg-white/10 text-white font-bold"
-                : "text-white/40 hover:text-white"
-            }`}
-          >
-            조회설정
-          </button>
-        </div>
       </div>
 
-      {/* 하단 내역 및 텍스트 동일 */}
-      <div className="relative z-10 flex-1 bg-[#0A2E3F]/80 backdrop-blur-sm rounded-sm p-4 overflow-hidden border border-white/5">
-        {children}
+      {/* 중앙 버튼 탭 (구분선으로만 경계 표시) */}
+      <div className="flex border-b border-gray-50 bg-white">
+        <button
+          onClick={() => {
+            setFilterType("1개월");
+            setIsListOpen(false);
+          }}
+          className={`flex-1 py-4 text-[12px] font-bold transition-all ${
+            filterType === "1개월"
+              ? "text-blue-600 border-b-2 border-blue-600"
+              : "text-gray-300"
+          }`}
+        >
+          1개월
+        </button>
+        <button
+          onClick={() => {
+            setFilterType("조회설정");
+            setIsListOpen(false);
+          }}
+          className={`flex-1 py-4 text-[12px] font-bold transition-all ${
+            filterType === "조회설정"
+              ? "text-blue-600 border-b-2 border-blue-600"
+              : "text-gray-300"
+          }`}
+        >
+          조회설정
+        </button>
       </div>
-      <div className="mt-4 text-[9px] text-slate-400 text-center font-medium">
+
+      {/* 카드 내역 리스트 영역 (자연스러운 연결) */}
+      <div className="flex-1 overflow-hidden bg-white">{children}</div>
+
+      {/* 하단 브랜드 텍스트 */}
+      <div className="py-4 text-[10px] text-gray-300 text-center font-bold tracking-widest bg-gray-50/50">
         SHINHANCARD CHECK | DOMESTIC ONLY
       </div>
     </div>
   );
 };
+
 export default Card_Back;
