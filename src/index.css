@@ -2,11 +2,20 @@
 @import "tailwindcss";
 @import "tailwind-scrollbar-hide/v4";
 
-/* 2. 기본 레이아웃 설정 */
+/* 2. 기본 레이아웃 및 금융 앱 폰트 설정 */
+:root {
+  /* 금융 앱에서 주로 사용하는 프리텐다드 및 시스템 폰트 스택 */
+  font-family: "Pretendard Variable", Pretendard, -apple-system,
+    BlinkMacSystemFont, system-ui, Roboto, "Apple SD Gothic Neo", "Noto Sans KR",
+    sans-serif;
+}
+
 html,
 body,
 #root {
   @apply w-full h-full;
+  -webkit-font-smoothing: antialiased; /* 글자를 더 매끄럽고 선명하게 표시 */
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* 스크롤바 숨기기 */
@@ -20,21 +29,19 @@ body,
   @apply w-full h-full m-0 p-0;
 }
 
-/* 3. 카드 뒤집기(Flip)를 위한 3D 커스텀 클래스 추가 */
-/* Tailwind v4에서는 @import 아래에 일반 CSS처럼 작성하면 됩니다. */
-
+/* 3. 카드 뒤집기(Flip)를 위한 3D 커스텀 클래스 */
 .perspective-1000 {
-  perspective: 1000px; /* 원근감 깊이 설정 */
+  perspective: 1000px;
 }
 
 .preserve-3d {
-  transform-style: preserve-3d; /* 자식 요소의 3D 공간 유지 */
+  transform-style: preserve-3d;
 }
 
 .backface-hidden {
-  backface-visibility: hidden; /* 뒷면이 보일 때 앞면을 숨김 */
+  backface-visibility: hidden;
 }
 
 .rotate-y-180 {
-  transform: rotateY(180deg); /* Y축 기준 180도 회전 */
+  transform: rotateY(180deg);
 }
