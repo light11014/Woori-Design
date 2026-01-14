@@ -18,12 +18,11 @@ const Card_Back = ({
   setCustomEnd,
 }) => {
   return (
-    // 둥근 테두리와 그림자 다시 적용
-    <div className="relative w-full h-full bg-white rounded-[1rem] shadow-2xl flex flex-col overflow-hidden border border-gray-100">
-      {/* Reverse 버튼: 상단 고정 */}
+    <div className="relative w-full h-full bg-white rounded-[1rem] shadow-2xl flex flex-col overflow-hidden border border-gray-100 font-sans">
+      {/* Reverse 버튼 */}
       <button
         onClick={onFlip}
-        className="absolute top-6 right-6 z-[100] text-gray-300 hover:text-gray-500 transition-colors"
+        className="absolute top-6 right-6 z-[100] text-gray-300 hover:text-gray-500 transition-colors cursor-pointer"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -41,9 +40,9 @@ const Card_Back = ({
         </svg>
       </button>
 
-      {/* 상단 정보 영역 (흰색/회색 톤) */}
-      <div className="pt-10 pb-4 px-6 border-b border-gray-50">
-        <div className="text-center mb-6">
+      {/* 상단 정보 영역 */}
+      <div className="pt-10 pb-4 px-6 border-b border-gray-50 flex flex-col items-center">
+        <div className="text-center mb-5">
           <p className="text-gray-400 text-[11px] font-medium mb-1">
             이번 달 사용금액
           </p>
@@ -52,16 +51,16 @@ const Card_Back = ({
           </p>
         </div>
 
-        {/* 기간 표시 및 드롭다운 */}
-        <div className="relative flex flex-col items-center">
-          <div
-            onClick={() => filterType === "1개월" && setIsListOpen(!isListOpen)}
-            className="flex items-center gap-1 cursor-pointer group py-1 px-3 rounded-full hover:bg-gray-50 transition-colors"
-          >
-            <span className="text-[12px] text-gray-600 font-semibold">
-              {dateRange}
-            </span>
-            {filterType === "1개월" && (
+        {/* [해결] min-h를 주어 내부 요소가 바뀌어도 아래 버튼 위치가 고정되게 함 */}
+        <div className="relative w-full min-h-[40px] flex items-center justify-center">
+          {filterType === "1개월" && (
+            <div
+              onClick={() => setIsListOpen(!isListOpen)}
+              className="flex items-center gap-1 cursor-pointer group py-1 px-3 rounded-full hover:bg-gray-50 transition-colors"
+            >
+              <span className="text-[12px] text-gray-600 font-semibold">
+                {dateRange}
+              </span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
@@ -76,46 +75,45 @@ const Card_Back = ({
                   clipRule="evenodd"
                 />
               </svg>
-            )}
-          </div>
-
-          {/* 월별 드롭다운 (흰색 팝업 스타일) */}
-          {isListOpen && (
-            <div className="absolute top-full mt-2 w-36 bg-white border border-gray-100 rounded-xl shadow-xl z-[150] overflow-hidden">
-              {monthList.map((m) => (
-                <button
-                  key={m.label}
-                  onClick={() => setMonthOffset(m.offset)}
-                  className="w-full px-4 py-3 text-[11px] text-gray-600 hover:bg-gray-50 hover:text-blue-600 text-center border-b border-gray-50 last:border-0 font-medium"
-                >
-                  {m.label}
-                </button>
-              ))}
             </div>
           )}
 
-          {/* 조회설정 날짜 입력창 (은은한 회색 배경) */}
           {filterType === "조회설정" && (
-            <div className="mt-4 flex items-center gap-2 bg-gray-50 p-2 rounded-lg border border-gray-100">
+            <div className="flex items-center gap-2 bg-gray-50 p-1.5 rounded-lg border border-gray-100 animate-in fade-in duration-200">
               <input
                 type="date"
                 value={customStart}
                 onChange={(e) => setCustomStart(e.target.value)}
-                className="bg-transparent text-gray-700 text-[10px] outline-none font-medium"
+                className="bg-transparent text-gray-700 text-[10px] outline-none font-bold cursor-pointer"
               />
               <span className="text-gray-300 text-[10px]">~</span>
               <input
                 type="date"
                 value={customEnd}
                 onChange={(e) => setCustomEnd(e.target.value)}
-                className="bg-transparent text-gray-700 text-[10px] outline-none font-medium"
+                className="bg-transparent text-gray-700 text-[10px] outline-none font-bold cursor-pointer"
               />
+            </div>
+          )}
+
+          {/* 드롭다운 (absolute 위치로 아래 탭을 밀지 않음) */}
+          {filterType === "1개월" && isListOpen && (
+            <div className="absolute top-full mt-1 w-36 bg-white border border-gray-100 rounded-xl shadow-xl z-[150] overflow-hidden">
+              {monthList.map((m) => (
+                <button
+                  key={m.label}
+                  onClick={() => setMonthOffset(m.offset)}
+                  className="w-full px-4 py-3 text-[11px] text-gray-600 hover:bg-gray-50 hover:text-blue-600 text-center border-b border-gray-50 last:border-0 font-medium transition-colors"
+                >
+                  {m.label}
+                </button>
+              ))}
             </div>
           )}
         </div>
       </div>
 
-      {/* 중앙 버튼 탭 (구분선으로만 경계 표시) */}
+      {/* 중앙 버튼 탭 (위 영역의 높이가 고정되어 있어 이제 밀리지 않음) */}
       <div className="flex border-b border-gray-50 bg-white">
         <button
           onClick={() => {
@@ -125,7 +123,7 @@ const Card_Back = ({
           className={`flex-1 py-4 text-[12px] font-bold transition-all ${
             filterType === "1개월"
               ? "text-blue-600 border-b-2 border-blue-600"
-              : "text-gray-300"
+              : "text-gray-300 hover:text-gray-400"
           }`}
         >
           1개월
@@ -138,14 +136,14 @@ const Card_Back = ({
           className={`flex-1 py-4 text-[12px] font-bold transition-all ${
             filterType === "조회설정"
               ? "text-blue-600 border-b-2 border-blue-600"
-              : "text-gray-300"
+              : "text-gray-300 hover:text-gray-400"
           }`}
         >
           조회설정
         </button>
       </div>
 
-      {/* 카드 내역 리스트 영역 (자연스러운 연결) */}
+      {/* 카드 내역 리스트 영역 */}
       <div className="flex-1 overflow-hidden bg-white">{children}</div>
 
       {/* 하단 브랜드 텍스트 */}
