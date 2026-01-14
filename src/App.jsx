@@ -1,5 +1,11 @@
-import "./App.css";
+import DefaultLayout from "./layouts/DefaultLayout";
 
-function App() {}
+function App() {
+  return (
+    <>
+      <DefaultLayout></DefaultLayout>
+    </>
+  );
+}
 
 export default App;
