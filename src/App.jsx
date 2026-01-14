@@ -6,6 +6,9 @@ import CardFrontBody from "./components/card/CardFrontBody";
 import CardHistoryList from "./components/card/CardHistoryList";
 
 function App() {
+  // [공통] 뺑글뺑글 도는 회전 상태만 부모가 관리합니다.
+  const [rotateDeg, setRotateDeg] = useState(0);
+  const handleFlip = () => setRotateDeg((prev) => prev + 180);
   const [selectedCardId, setSelectedCardId] = useState(mockCards[0].cardId);
 
   const selectedCard = mockCards.find((card) => card.cardId === selectedCardId);
@@ -86,39 +89,21 @@ function App() {
     <DefaultLayout>
       <div className="perspective-1000 w-full flex justify-center py-10">
         <div
-          className={`relative w-[400px] h-[600px] transition-transform duration-700 preserve-3d ${
-            isFlipped ? "rotate-y-180" : ""
-          }`}
+          className="relative w-[400px] h-[600px] transition-transform duration-700 preserve-3d"
+          style={{ transform: `rotateY(${rotateDeg}deg)` }}
         >
-          <CardFrontBody
-            cardInfo={selectedCard}
-            handleFlip={() => setIsFlipped(true)}
-          />
+          {/* [앞면] */}
+          <CardFrontBody cardInfo={selectedCard} handleFlip={handleFlip} />
+
+          {/* [뒷면] 필터링에 필요한 원본 데이터(histories)만 전달합니다. */}
+
           <div className="absolute inset-0 backface-hidden rotate-y-180">
-            <Card_Back
-              totalUsage={totalUsageAmount}
-              onFlip={() => setIsFlipped(false)}
-              filterType={filterType}
-              setFilterType={setFilterType}
-              dateRange={dateRangeStr}
-              isListOpen={isListOpen}
-              setIsListOpen={setIsListOpen}
-              monthList={monthList}
-              setMonthOffset={(offset) => {
-                setMonthOffset(offset);
-                setIsListOpen(false);
-              }}
-              customStart={customStart}
-              customEnd={customEnd}
-              setCustomStart={setCustomStart}
-              setCustomEnd={setCustomEnd}
-            >
-              <CardHistoryList histories={filteredHistories} />
-            </Card_Back>
+            <Card_Back histories={dummyHistories} onFlip={handleFlip} />
           </div>
         </div>
       </div>
     </DefaultLayout>
   );
 }
+
 export default App;
