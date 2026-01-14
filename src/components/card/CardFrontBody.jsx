@@ -55,7 +55,12 @@ const CardFrontBody = ({ cardInfo, handleFlip }) => {
           </div>
         </div>
         {/* 뒤집기 버튼 */}
-        <FlipButton onClick={handleFlip} />
+        <FlipButton
+          onClick={(e) => {
+            e.stopPropagation(); // 클릭 신호가 위로 올라가는 것을 차단!
+            handleFlip();
+          }}
+        />
       </div>
     </div>
   );
