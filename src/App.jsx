@@ -4,6 +4,24 @@ import Card_Back from "./components/card/Card_Back";
 import CardFrontBody from "./components/card/CardFrontBody";
 import CardHistoryList from "./components/card/CardHistoryList";
 
+const dummyCardInfo = {
+  cardId: "card-001",
+
+  cardName: "KREAM Platinum 우리카드",
+  company: "우리카드",
+  cardType: "CREDIT",
+
+  imageUrl: "/woori-card-kream-platinum.png",
+  themeColor: "#1A4FFF",
+
+  maskedCardNumber: "**** **** **** 1234",
+
+  linkedAccount: {
+    bankName: "신한",
+    maskedAccountNumber: "110-***-****",
+  },
+};
+
 const dummyHistories = [
   {
     id: 1,
@@ -170,7 +188,10 @@ function App() {
             isFlipped ? "rotate-y-180" : ""
           }`}
         >
-          <CardFrontBody handleFlip={() => setIsFlipped(true)} />
+          <CardFrontBody
+            cardInfo={dummyCardInfo}
+            handleFlip={() => setIsFlipped(true)}
+          />
           <div className="absolute inset-0 backface-hidden rotate-y-180">
             <Card_Back
               totalUsage={totalUsageAmount}
