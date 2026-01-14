@@ -1,16 +1,27 @@
-# React + Vite
+금융앱에서 사용할만한 컴포넌트 설계/구현/배포
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+1. 금융 도메인에서 사용하는/할만한 컴포넌트 설계 및 구현
 
-Currently, two official plugins are available:
+컴포넌트 설계/구현 시 고려할 부분
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+-   재사용성(컴포넌트를 설치해서 사용하는 실제 사용자 관점)
+-   외부 모듈 의존도(컴포넌트를 유지보수하는 개발자 관점)
 
-## React Compiler
+ex. 보안 키패드
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+-   숫자 위치 랜덤
+-   숫자가 클릭될 때마다 랜덤으로 다른 버튼들도 클릭효과 처리하기
+-   입력 시 화면에 표시될 실제 값은 마스킹 처리(● ● \_ \_ )
+-   클립보드 복사 기능 차단
 
-## Expanding the ESLint configuration
+그 외
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+-   PIN/간편비밀번호 입력용 컴포넌트
+-   OTP / 인증코드
+-   계좌번호 or 금액 입력
+-   거래 진행 상태 등
+
+2. npm 모듈로 빌드하여 배포
+
+추후 최종 프로젝트에서 필요에 따라 설치하여 사용할 수 있도록 배포 및 설치하여 테스트(추후)
+(실제 NPM에 배포하는 과정은 NPM에게 검수를 받기까지 다소 시간이 걸릴 수 있음)
